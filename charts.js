@@ -25,18 +25,30 @@ $(document).ready(function(){
   }
 
   function drawVisualization(source, id) {
-    google.visualization.ChartWrapper({
+    var wrapper = google.visualization.ChartWrapper({
       containerId: 'visualization',
       dataSourceUrl: 'http://www.google.com/fusiontables/gvizdata?tq=',
-      query: 'SELECT Tujuan, tma, ch, fisik, se, kbt FROM ' + source + ' WHERE Tujuan = "Balen"',      
+      query: 'SELECT Tujuan, tma, ch, fisik, se, kbt FROM 1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU WHERE Tujuan = "Balen"',      
       chartType: 'ColumnChart',
       options: {'title': id
         // height: 400,
         // width: 400
       }
     });
-    //wrapper.draw();
+    wrapper.draw();
   }
+
+  function drawVisualization2(id) {
+        google.visualization.drawChart({
+          containerId: "visualization",
+          dataSourceUrl: "http://www.google.com/fusiontables/gvizdata?tq=",
+          query: "SELECT Tujuan, tma, ch, fisik, se, kbt FROM 1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU WHERE Tujuan = 'Balen'",
+          chartType: "ColumnChart",
+          options: {
+            title: id            
+          }
+        });
+      }
 
   function kirim(id) {
       /*var id_json = JSON.stringify(id);
@@ -105,6 +117,7 @@ $('.accord-section-title').click(function(){
     default: break;
   }
   drawVisualization(source, id);
+  //drawVisualization2(id);
 });
 
 });
