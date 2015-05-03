@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Peta Resiko Banjir Bengawan Solo</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="icon" href="favicon.ico">		
+		<link href="css/styles.css" rel="stylesheet">
+    <link href="css/accord.css" rel="stylesheet">
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDfhs80CNfIJM-HZ34Jwrv7IwddD9V4PUg"></script>
+	</head>
+	<body>
+  <!-- begin template -->
+  <div class="navbar navbar-custom navbar-fixed-top">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <img src="images/image.png" width="60" height="50" title="Logo" /><a href="index.html"></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="#">Contact</a></li>
+        <li>&nbsp;</li>
+      </ul>
+      <!--form class="navbar-form">
+        <div class="form-group" style="display:inline;">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-chevron-down"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#">Category 1</a></li>
+                <li><a href="#">Category 2</a></li>
+                <li><a href="#">Category 3</a></li>
+                <li><a href="#">Category 4</a></li>
+                <li><a href="#">Category 5</a></li> 
+              </ul>
+            </div>
+              <input type="text" class="form-control" placeholder="What are searching for?">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> </span>
+          </div>
+        </div>
+      </form-->
+    </div>
+  </div>
+
+  <div id="map-canvas"></div>
+  <div class="container-fluid" id="main">
+    <div class="row">
+  	 <div class="col-xs-6" id="left">    
+      <h2>Pengukuran Resiko Banjir Bengawan Solo</h2>
+      
+      <!-- item list -->      
+
+      <div class="accord">
+        <div class="accord-section">
+          <a id="jatim" class="accord-section-title" href="#accord-1">Peta Resiko Jawa Timur</a>
+          <div id="accord-1" class="accord-section-content" style="display: block;">
+            <p>Pada peta di samping dapat terlihat bahwa area yang diberi warna merupakan kawasan rawan bencana banjir di lima kabupaten yang dilalui sungai Bengawan Solo di Provinsi Jawa Timur. Total ada 36 kecamatan yang dilaui di sungai tersebut mulai dari Kabupaten Ngawi, Kabupaten Bojonegoro, Kabupaten Tuban, Kabupaten Lamongan, dan Kabupaten Gresik.</p>
+          </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+
+        <hr>
+
+        <div class="accord-section">
+          <a id="ngawi" class="accord-section-title" href="#accord-2">Peta Resiko Kabupaten Ngawi</a>
+          <div id="accord-2" class="accord-section-content">
+            <p>Mauris interdum fringilla augue vitae tincidunt. Curabitur vitae tortor id eros euismod ultrices. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent nulla mi, rutrum ut feugiat at, vestibulum ut neque? Cras tincidunt enim vel aliquet facilisis. Duis congue ullamcorper vehicula. Proin nunc lacus, semper sit amet elit sit amet, aliquet pulvinar erat. Nunc pretium quis sapien eu rhoncus. Suspendisse ornare gravida mi, et placerat tellus tempor vitae.</p>            
+          </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+
+        <hr>
+
+        <div class="accord-section">
+          <a id="bojonegoro" class="accord-section-title" href="#accord-3">Peta Resiko Kabupaten Bojonegoro</a>
+          <div id="accord-3" class="accord-section-content">            
+            <!--p>Daerah Rawan Bencana di Kabupaten Bojonegoro merupakan kawasan rawan bencana banjir yang berada di empat belas kecamatan yang dilalui sungai Bengawan Solo di Kabupaten Bojonegoro. Kecamatan yang dilalui di sungai tersebut mulai dari Kecamatan Margomulyo hingga Kecamatan Baureno.</p-->            
+            <!--a id="ahp" class="accord-section-subtitle" href="#Hasilahp">Peta Sebaran Tingkat Resiko Banjir Bengawan Solo</a>            
+            <div id="Hasilahp" class="accord-section-subcontent">
+              <div id="vis"></div>
+              <img src="images/Jenks_AHP.png" alt="Jenks">
+              <p></p>              
+              <p>Pada grafik diatas dapat terlihat tingkat resiko yang berbeda-beda pada tiap kecamatan yang telah dihitung tingkat resikonya. Pada peta disamping menunjukkan perbedaan warna untuk membedakan tingkat resiko per kecamatan. Warna merah paling terang menunjukkan tingkat resiko yang paling rendah dan warna merah yang paling gelap menunjukkan tingkat resiko yang paling tinggi.</p>
+            </div>
+            <hr>
+            <a id="tma" class="accord-section-subtitle" href="#Hasiltma">Peta Sebaran Tingkat Tinggi Muka Air Bengawan Solo</a>
+            <div id="Hasiltma" class="accord-section-subcontent">
+              <div id="vis1"></div>
+              <img src="images/Jenks_tma.png" alt="Jenks">
+              <p></p>
+              <p>Pada grafik diatas dapat terlihat tingkat tinggi muka air yang berbeda-beda pada tiap kecamatan. Pada peta disamping menunjukkan perbedaan warna untuk membedakan tingkat per kecamatan. Warna biru paling gelap menunjukkan muka air yang paling tinggi dan warna biru yang paling terang menunjukkan yang paling rendah.</p>
+            </div>
+            <hr>
+            <a id="ch" class="accord-section-subtitle" href="#Hasilch">Peta Sebaran Tingkat Curah Hujan</a>
+            <div id="Hasilch" class="accord-section-subcontent">
+              <div id="vis2"></div>
+              <img src="images/Jenks_ch.png" alt="Jenks">
+              <p></p>
+              <p>Pada grafik diatas dapat terlihat tingkat curah hujan yang berbeda-beda pada tiap kecamatan. Pada peta disamping menunjukkan perbedaan warna untuk membedakan tingkat per kecamatan. Warna ungu paling gelap menunjukkan curah hujan yang paling tinggi dan warna ungu yang paling terang menunjukkan yang paling rendah.</p>
+            </div>
+            <hr>
+            <a id="kbt" class="accord-section-subtitle" href="#Hasilkbt">Peta Sebaran Kejadian Bencana Tercatat</a>
+            <div id="Hasilkbt" class="accord-section-subcontent">
+              <div id="vis3"></div>
+              <img src="images/Jenks_kbt.png" alt="Jenks">
+              <p></p>
+              <p>Pada grafik diatas dapat terlihat tingkat kejadian bencana banjir yang pernah terjadi pada tiap kecamatan. Pada peta disamping menunjukkan perbedaan warna untuk membedakan tingkat per kecamatan. Warna coklat paling gelap menunjukkan kejadian yang paling banyak dan warna coklat yang paling terang menunjukkan yang paling sedikit.</p>
+            </div>
+            <hr>
+            <a id="af" class="accord-section-subtitle" href="#Hasilaf">Peta Sebaran Tingkat Fisik</a>
+            <div id="Hasilaf" class="accord-section-subcontent">
+              <div id="vis4"></div>
+              <img src="images/Jenks_fisik.png" alt="Jenks">
+              <p></p>
+              <p> Yang dimaksud aspek fisik disini adalah aspek kerentanan yang menggambarkan perkiraan tingkat kerusakan terhadap fisik bila ada faktor bahaya tertentu. Data yang digunakan hingga saat ini ialah jumlah bangunan dan jumlah bangunan konstruksi darurat. Pada grafik diatas dapat terlihat tingkat perhitungan aspek fisik pada tiap kecamatan. Pada peta disamping menunjukkan perbedaan warna untuk membedakan tingkat per kecamatan. Warna jingga paling gelap menunjukkan kerentanan yang paling rendah dan warna jingga yang paling terang menunjukkan yang paling tinggi.</p>
+            </div>
+            <hr>
+            <a id="se" class="accord-section-subtitle" href="#Hasilse">Peta Sebaran Tingkat Sosio-Ekonomi</a>
+            <div id="Hasilse" class="accord-section-subcontent">
+              <div id="vis5"></div>
+              <img src="images/Jenks_se.png" alt="Jenks">
+              <p></p>
+              <p> Yang dimaksud aspek sosio-ekonomi disini adalah aspek kerentanan yang menunjukkan perkiraan tingkat kerentanan terhadap keselamatan jiwa/kesehatan dan kondisi keuangan penduduk apabila ada bahaya. Data yang digunakan hingga saat ini ialah kepadatan penduduk, persentase penduduk usia rentan, jumlah pekerja di sektor rentan, dan presentase penduduk wanita. Pada grafik diatas dapat terlihat tingkat perhitungan aspek sosio-ekonomi pada tiap kecamatan. Pada peta disamping menunjukkan perbedaan warna untuk membedakan tingkat per kecamatan. Warna hijau paling gelap menunjukkan kerentanan yang paling tinggi dan warna hijau yang paling terang menunjukkan yang paling rendah.</p>
+            </div-->
+          </div><!--end .accordion-section-content-->                      
+        </div><!--end .accordion-section-->
+
+        <hr>
+
+        <div class="accord-section">
+          <a id="tuban" class="accord-section-title" href="#accord-4">Peta Resiko Kabupaten Tuban</a>
+          <div id="accord-4" class="accord-section-content">
+            <p>Mauris interdum fringilla augue vitae tincidunt. Curabitur vitae tortor id eros euismod ultrices. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent nulla mi, rutrum ut feugiat at, vestibulum ut neque? Cras tincidunt enim vel aliquet facilisis. Duis congue ullamcorper vehicula. Proin nunc lacus, semper sit amet elit sit amet, aliquet pulvinar erat. Nunc pretium quis sapien eu rhoncus. Suspendisse ornare gravida mi, et placerat tellus tempor vitae.</p>
+          </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+
+        <hr>
+
+        <div class="accord-section">
+          <a id="lamongan" class="accord-section-title" href="#accord-5">Peta Resiko Kabupaten Lamongan</a>
+          <div id="accord-5" class="accord-section-content">
+            <p>Mauris interdum fringilla augue vitae tincidunt. Curabitur vitae tortor id eros euismod ultrices. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent nulla mi, rutrum ut feugiat at, vestibulum ut neque? Cras tincidunt enim vel aliquet facilisis. Duis congue ullamcorper vehicula. Proin nunc lacus, semper sit amet elit sit amet, aliquet pulvinar erat. Nunc pretium quis sapien eu rhoncus. Suspendisse ornare gravida mi, et placerat tellus tempor vitae.</p>
+          </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+
+        <hr>
+
+        <div class="accord-section">
+          <a id="gresik" class="accord-section-title" href="#accord-6">Peta Resiko Kabupaten Gresik</a>
+          <div id="accord-6" class="accord-section-content">
+            <p>Mauris interdum fringilla augue vitae tincidunt. Curabitur vitae tortor id eros euismod ultrices. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent nulla mi, rutrum ut feugiat at, vestibulum ut neque? Cras tincidunt enim vel aliquet facilisis. Duis congue ullamcorper vehicula. Proin nunc lacus, semper sit amet elit sit amet, aliquet pulvinar erat. Nunc pretium quis sapien eu rhoncus. Suspendisse ornare gravida mi, et placerat tellus tempor vitae.</p>
+          </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+      </div><!--end .accordion-->
+        
+      <p>
+      <!--a href="http://www.bootply.com/render/129229">Demo</a> | <a href="http://bootply.com/129229">Source Code</a-->
+      </p>
+      
+      <hr> 
+        
+      <p>
+      <a href="http://about.me/rhadint" target="_ext" class="center-block btn btn-primary">Copyright Haris Rahadianto</a>
+      </p>
+        
+      <hr>      
+
+      </div>
+    <div class="col-xs-6"><!--map-canvas will be postioned here--></div>    
+    
+    </div>  
+  </div>
+  <!-- end template -->
+
+	<!-- script references -->		
+		<script src="js/bootstrap.min.js"></script>		
+    <script src="js/accord.js"></script>    
+		<script src="js/scripts.js"></script>
+    <script src="charts.js"></script>    
+	</body>
+</html>
