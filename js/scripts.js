@@ -54,7 +54,9 @@ function initialize() {
   rawan [3] = '1pTNRH6jXv4PytHIeGdptdkDjFl0twJ5oQK7OkIqB';
   rawan [4] = '1NuYLsTXCY_Dqf8l-qgjtukYNNO4C2QDqvpYsg_en';
 
+  result [0] = '1pAq8MExPv4_lh7zzbwPo9XJvECH-du4wb-R1I4Ng';
   result [1] = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';
+  result [3] = '1O46RRdQLkJ4rkMsUwwdbcpnT8OznqKIuTsf5yJek';
 
 function newInit(Peta,jum) {
   mapOptions = {
@@ -91,7 +93,7 @@ function legendContent(legendWrapper, id) {
   legend.id = 'legend';
 
   var title = document.createElement('p');
-  title.innerHTML = "Tingkat Resiko " + id;
+  title.innerHTML = "Tingkat Resiko Kabupaten " + id;
   legend.appendChild(title);
 
   var layerStyle = LAYER_STYLES;

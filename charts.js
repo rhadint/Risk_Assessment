@@ -1,4 +1,4 @@
-google.load('visualization', '1');
+google.load('visualization', '1', { packages: ['corechart'] });
 var n;
 var id;
 var source;
@@ -24,18 +24,28 @@ $(document).ready(function(){
     wrapper.draw();
   }
 
-  function drawVisualization(source, id) {
-    var wrapper = google.visualization.ChartWrapper({
-      containerId: 'visualization',
-      dataSourceUrl: 'http://www.google.com/fusiontables/gvizdata?tq=',
-      query: 'SELECT Tujuan, tma, ch, fisik, se, kbt FROM 1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU WHERE Tujuan = "Balen"',      
-      chartType: 'ColumnChart',
-      options: {'title': id
-        // height: 400,
-        // width: 400
+  function drawVisualization() {
+
+    var queryText = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU');
+    queryText.setQuery = ('SELECT Tujuan, tma, ch, fisik, se, kbt');
+    queryText.send(function (response) {
+
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
       }
+
+      var data = response.getDatatable();
+      var wrapper = new google.visualization.ChartWrapper({
+        containerId: 'visualization',        
+        query: data,      
+        chartType: 'ColumnChart',
+        options: {'title': 'Bojonegoro'}
+      });
+      wrapper.draw();
     });
-    wrapper.draw();
+
+    
   }
 
   function drawVisualization2(id) {
@@ -116,7 +126,7 @@ $('.accord-section-title').click(function(){
       break;
     default: break;
   }
-  drawVisualization(source, id);
+  drawVisualization();
   //drawVisualization2(id);
 });
 
