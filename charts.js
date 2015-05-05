@@ -2,10 +2,9 @@ google.load('visualization', '1', { packages: ['corechart'] });
 var n;
 var id;
 var source;
+var cont;
 
-$(document).ready(function(){  
-  //google.setOnLoadCallback(drawItems);
-  //google.setOnLoadCallback(drawVisualization);
+$(document).ready(function(){    
   function drawItems(url, cont) {
     var jsonChartData = $.ajax({
       url: url,          
@@ -13,7 +12,7 @@ $(document).ready(function(){
       async: false          
     }).responseText;
     
-    var chartdata = new google.visualization.DataTable(jsonChartData);        
+    //var chartdata = new google.visualization.DataTable(jsonChartData);        
 
     var wrapper = new google.visualization.ChartWrapper({
           chartType: 'BarChart',
@@ -24,64 +23,41 @@ $(document).ready(function(){
     wrapper.draw();
   }
 
-  function drawVisualization() {
+  function drawVisualization(cont) {
 
-    var queryText = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU');
-    queryText.setQuery = ('SELECT Tujuan, tma, ch, fisik, se, kbt');
-    queryText.send(function (response) {
+    var queryText = "SELECT  Tujuan, tma, ch, fisik, se, kbt FROM 1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU";
+    var encodedQuery = encodeURIComponent(queryText);
 
-      if (response.isError()) {
-        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-        return;
-      }
+    var site =  ['https://www.googleapis.com/fusiontables/v2/query'];
+    site.push('?sql=' + encodedQuery);
+    site.push('&key=AIzaSyAenEAiceGY8ebGZiL_MrkMDil_mETnPa0');
 
-      var data = response.getDatatable();
-      var wrapper = new google.visualization.ChartWrapper({
-        containerId: 'visualization',        
-        query: data,      
-        chartType: 'ColumnChart',
-        options: {'title': 'Bojonegoro'}
-      });
-      wrapper.draw();
+    var data = $.ajax({
+      url: site.join(''),
+      dataType: 'jsonp',
+      async: false
+    }).responseText;
+
+    var chartdata = new google.visualization.DataTable(data);
+
+    var wrapper = new google.visualization.ChartWrapper({              
+      chartType: 'ColumnChart',
+      dataTable: chartdata,
+      options: {'title': 'Bojonegoro'},      
     });
-
-    
+    wrapper.setContainerId(cont);
+    wrapper.draw();
   }
 
-  function drawVisualization2(id) {
-        google.visualization.drawChart({
-          containerId: "visualization",
-          dataSourceUrl: "http://www.google.com/fusiontables/gvizdata?tq=",
-          query: "SELECT Tujuan, tma, ch, fisik, se, kbt FROM 1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU WHERE Tujuan = 'Balen'",
-          chartType: "ColumnChart",
-          options: {
-            title: id            
-          }
-        });
-      }
-
-  function kirim(id) {
-      /*var id_json = JSON.stringify(id);
-      request = new XMLHttpRequestobject;
-      request.open("POST", "getchartdata.php", true);
-      request.setRequestHeader("Content-type", "application/json");
-      request.send(id_json);*/
-      $.ajax({
-        type: "POST",
-        url: "getchartdata.php",
-        data: {id : id},
-        success: function(data){
-          alert("success!");
-        }
-      });
-  }
-
-$('.accord-section-subtitle').click(function(){
+$('.accord-section-title').click(function(){
   var id = $(this).attr('id');
-  url = "php/getchartdata.php?kode="+id;  
+  //url = "php/getchartdata.php?kode="+id;  
   switch(id){
     case 'ahp':    
       cont = 'vis';
+      break;
+    case 'bojonegoro':
+      cont = 'visualization';
       break;
     case 'tma':      
       cont = 'vis1';
@@ -100,10 +76,11 @@ $('.accord-section-subtitle').click(function(){
       break;
     default: break;
   }
-  drawItems(url, cont);
+  //drawItems(url, cont);
+  drawVisualization(cont);
 });
 
-$('.accord-section-title').click(function(){
+$('.accord-section-subtitle').click(function(){
   id = $(this).attr('id');  
   switch(id){
     case 'jatim':       
@@ -113,7 +90,7 @@ $('.accord-section-title').click(function(){
       source = new google.maps.LatLng(-7.4326065,111.394829);      
       break;
     case 'bojonegoro':       
-      source = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';      
+      source = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';            
       break;
     case 'tuban':      
       source = new google.maps.LatLng(-7.0127631,112.0115064);      
@@ -126,8 +103,6 @@ $('.accord-section-title').click(function(){
       break;
     default: break;
   }
-  drawVisualization();
-  //drawVisualization2(id);
+  //drawVisualization(); 
 });
-
 });
