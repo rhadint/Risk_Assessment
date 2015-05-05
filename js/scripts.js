@@ -78,6 +78,22 @@ function fusion(f) {
     },          
   });
   layer.setMap(map);
+  google.maps.event.addListener(layer, 'click', function(e) {    
+    var sector = e.row['Tujuan'].value;        
+    opt = sector;
+    cont = this.value;
+    source = this.value;
+    drawVisualization(cont, source, opt);
+
+    var electricity = e.row['risk'].value;
+    if (electricity > 0.08) {
+      e.infoWindowHtml = '<p class="high">High Usage!</p>';
+    } else if (electricity > 0.05) {
+      e.infoWindowHtml = '<p class="medium">Medium Usage</p>';
+    } else {
+      e.infoWindowHtml = '<p class="low">Low Usage</p>';
+    }      
+  });
 };
 
 function createLegend(map, id) {

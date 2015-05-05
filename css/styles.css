@@ -65,7 +65,7 @@ body{
 
 #visualization {    
     width:500px;
-    height:500px;
+    height:300px;
   }
 
 #legend {
@@ -90,6 +90,22 @@ body{
     margin-right: 3px;
     float: left;
     display: block;
+}
+
+.high {
+    color: #F00;
+}
+
+.medium {
+    color: #0F0;
+}
+
+.low {
+    color: #00F;
+}
+
+.high, .medium, .low {
+    font-weight: bold;
 }
 
 #vis {
