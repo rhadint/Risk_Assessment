@@ -1,6 +1,7 @@
 var layers = [6];
 var result = [5];
 var rawan = [5];
+var skin = [5];
 var map;
 var n;
 var LatLng;
@@ -40,7 +41,8 @@ function initialize() {
   
   newInit(Peta,jum);
   fusion(first);
-  fusion(second);  
+  //loop();
+  fusion(second);
 
   layers [0] = '1xJKmJWufCa2N843uZhxAQ6FSYH3fQ-12t10XmJbT';
   layers [1] = '1nb6tcNnolnlAjTfWwYWc1LRCMm3DP_JIv9ktL3-2';
@@ -57,7 +59,9 @@ function initialize() {
 
   result [0] = '1pAq8MExPv4_lh7zzbwPo9XJvECH-du4wb-R1I4Ng';
   result [1] = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';
+  result [2] = '18JvRFAj_drFMl6DYJ8ZlSoMS0_wICDFOhYHrKjMH';
   result [3] = '1O46RRdQLkJ4rkMsUwwdbcpnT8OznqKIuTsf5yJek';
+  result [4] = '1lpvQYRmshDAvLVWS2j5NGV6hAk74WzJWwiPdwTCP';
 
 function newInit(Peta,jum) {
   mapOptions = {
@@ -68,8 +72,23 @@ function newInit(Peta,jum) {
       style: google.maps.ZoomControlStyle.SMALL
     },
   }
-  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);  
+  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  styleMap(map);
 };
+
+function loop(){
+  for (var i = 0; i < skin.length; i++) {
+    //fusion(result[i]);
+    skin[i] = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'geometry',
+        from: result[i]
+      },          
+    });    
+    skin[i].setMap(map);
+    styleLayerBySector(skin[i]);
+  }
+}
 
 function fusion(f) {
   layer = new google.maps.FusionTablesLayer({
@@ -83,7 +102,7 @@ function fusion(f) {
     sector = e.row['Tujuan'].value;
 
      $.getScript("js/charts.js", function(){
-       drawVisualization(sector);
+       updateChart(sector);
      });
 
     // $.ajax({
@@ -237,12 +256,12 @@ function styleMap(map) {
   }, {
     featureType: 'poi',
     stylers: [{
-      visibility: 'on'
+      visibility: 'off'
     }]
   }, {
     featureType: 'road',
     stylers: [{
-      visibility: 'on'
+      visibility: 'off'
     }]
   }];
 

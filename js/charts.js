@@ -5,15 +5,17 @@ var source;
 var cont;
 var query;
 var opt;
+var temp1;
+var temp2;
 
-//$(document).ready(function(){  
+$(document).ready(function(){  
   function drawVisualization(opt, cont, source) {
-    if (cont=='vis') {
+    if (cont=='visualization') {
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'ch', 'sosial', 'fisik', 'ekonomi', 'kbt' from " + source + " where Tujuan = '" + opt + "'");
+      query.setQuery("select 'Tujuan', 'tma', 'ch', 'se', 'fisik', 'kbt' from " + source + " where Tujuan = '" + opt + "'");      
     } else {      
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'tma', 'ch', 'se', 'fisik', 'kbt' from " + source + " where Tujuan = '" + opt + "'");
+      query.setQuery("select 'Tujuan', 'ch', 'sosial', 'fisik', 'ekonomi', 'kbt' from " + source + " where Tujuan = '" + opt + "'");
     }    
     query.send(handleQueryResponse);
     function handleQueryResponse(response) {
@@ -28,13 +30,13 @@ var opt;
       wrapper.setContainerId(cont);                  
       wrapper.draw();
     }
+  }  
+
+  function updateChart (opt) {    
+    drawVisualization(opt, temp1, temp2);
   }
 
-  function updateChart (opt) {
-    cont = this.value;
-    source = this.value;
-    drawVisualization(cont, source, opt);
-  }
+  window.updateChart = updateChart;
 
 $('.accord-section-title').click(function(){
   id = $(this).attr('id');  
@@ -50,17 +52,25 @@ $('.accord-section-title').click(function(){
       cont = "visualization";
       break;
     case 'tuban':      
-      source = new google.maps.LatLng(-7.0127631,112.0115064);      
+      source = '18JvRFAj_drFMl6DYJ8ZlSoMS0_wICDFOhYHrKjMH';
+      opt = 'Widang';
+      cont = "vis2";
       break;
     case 'lamongan':      
-      source = new google.maps.LatLng(-7.088084,112.3734886);      
+      source = '1O46RRdQLkJ4rkMsUwwdbcpnT8OznqKIuTsf5yJek';
+      opt = 'Babat';
+      cont = "vis1";
       break;
     case 'gresik':      
-      source = new google.maps.LatLng(-7.0879808,112.5235898);      
+      source = '1lpvQYRmshDAvLVWS2j5NGV6hAk74WzJWwiPdwTCP';
+      opt = 'Manyar';
+      cont = "vis3";
       break;
     default: break;
   }
   drawVisualization(opt, cont, source);
+  temp1=cont;
+  temp2=source;
 });
 
-//});
+});
