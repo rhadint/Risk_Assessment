@@ -6,8 +6,8 @@ var cont;
 var query;
 var opt;
 
-$(document).ready(function(){  
-  function drawVisualization(cont, source, opt) {
+//$(document).ready(function(){  
+  function drawVisualization(opt, cont, source) {
     if (cont=='vis') {
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
       query.setQuery("select 'Tujuan', 'ch', 'sosial', 'fisik', 'ekonomi', 'kbt' from " + source + " where Tujuan = '" + opt + "'");
@@ -28,6 +28,12 @@ $(document).ready(function(){
       wrapper.setContainerId(cont);                  
       wrapper.draw();
     }
+  }
+
+  function updateChart (opt) {
+    cont = this.value;
+    source = this.value;
+    drawVisualization(cont, source, opt);
   }
 
 $('.accord-section-title').click(function(){
@@ -54,6 +60,7 @@ $('.accord-section-title').click(function(){
       break;
     default: break;
   }
-  drawVisualization(cont, source, opt); 
+  drawVisualization(opt, cont, source);
 });
-});
+
+//});
