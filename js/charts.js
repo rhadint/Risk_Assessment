@@ -7,10 +7,10 @@ var query;
 var opt;
 
 $(document).ready(function(){  
-
   function drawVisualization(cont, source, opt) {
     if (cont=='vis') {
-      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=select 'Tujuan', 'ch', 'sosial', 'fisik', 'ekonomi', 'kbt' from " + source + " where Tujuan = 'Ngawi'");
+      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
+      query.setQuery("select 'Tujuan', 'ch', 'sosial', 'fisik', 'ekonomi', 'kbt' from " + source + " where Tujuan = '" + opt + "'");
     } else {      
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
       query.setQuery("select 'Tujuan', 'tma', 'ch', 'se', 'fisik', 'kbt' from " + source + " where Tujuan = '" + opt + "'");

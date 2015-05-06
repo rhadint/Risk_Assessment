@@ -9,10 +9,12 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">    
     <link rel="icon" href="favicon.ico">		
 		<link href="css/styles.css" rel="stylesheet">
-    <link href="css/accord.css" rel="stylesheet">
+    <link href="css/accord.css" rel="stylesheet">    
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDfhs80CNfIJM-HZ34Jwrv7IwddD9V4PUg"></script>
+    <script src="js/charts.js"></script>   
+    <script src="js/scripts.js"></script>
 	</head>
 	<body>
   <!-- begin template -->
@@ -177,7 +179,11 @@
       <hr>      
 
       </div>
-    <div class="col-xs-6"><!--map-canvas will be postioned here--></div>    
+    <div class="col-xs-6"><!--map-canvas will be postioned here-->
+      <script type="text/javascript">
+        callback();
+      </script>
+    </div>    
     
     </div>  
   </div>
@@ -185,8 +191,6 @@
 
 	<!-- script references -->		
 		<script src="js/bootstrap.min.js"></script>		
-    <script src="js/accord.js"></script> 
-    <script src="js/charts.js"></script>   
-		<script src="js/scripts.js"></script>    
+    <script src="js/accord.js"></script>        
 	</body>
 </html>

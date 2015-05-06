@@ -9,6 +9,7 @@ var jum;
 var mapOptions;
 var layer;
 var f;
+var sector;
 
 $(document).ready(function(){/* google maps -----------------------------------------------------*/
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -78,12 +79,8 @@ function fusion(f) {
     },          
   });
   layer.setMap(map);
-  google.maps.event.addListener(layer, 'click', function(e) {    
-    var sector = e.row['Tujuan'].value;        
-    opt = sector;
-    cont = this.value;
-    source = this.value;
-    drawVisualization(cont, source, opt);
+  google.maps.event.addListener(layer, 'click', function(e) {
+    sector = e.row['Tujuan'].value;
 
     var electricity = e.row['risk'].value;
     if (electricity > 0.08) {
@@ -92,9 +89,18 @@ function fusion(f) {
       e.infoWindowHtml = '<p class="medium">Medium Usage</p>';
     } else {
       e.infoWindowHtml = '<p class="low">Low Usage</p>';
-    }      
+    }
+
+    callback();
   });
-};
+}
+
+function callback() {
+  opt = sector;
+  cont = this.value;
+  source = this.value;
+  drawVisualization(cont, source, opt);
+}
 
 function createLegend(map, id) {
   var legendWrapper = document.createElement('div');
