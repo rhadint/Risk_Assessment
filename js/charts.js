@@ -12,10 +12,10 @@ $(document).ready(function(){
   function drawVisualization(opt, cont, source) {
     if (cont=='visualization') {
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'tma', 'ch', 'se', 'fisik', 'kbt' from " + source + " where Tujuan = '" + opt + "'");      
+      query.setQuery("select 'Tujuan', 'tma' as 'Tinggi Muka Air', 'ch' as 'Kerentanan Sosial', 'se' as 'Kerentanan Fisik', 'fisik' as 'Kerentanan Ekonomi', 'kbt' as 'Kejadian Bencana' from " + source + " where Tujuan = '" + opt + "'");
     } else {      
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'ch', 'sosial', 'fisik', 'ekonomi', 'kbt' from " + source + " where Tujuan = '" + opt + "'");
+      query.setQuery("select 'Tujuan', 'ch' as 'Tinggi Muka Air', 'sosial' as 'Kerentanan Sosial', 'fisik' as 'Kerentanan Fisik', 'ekonomi' as 'Kerentanan Ekonomi', 'kbt' as 'Kejadian Bencana' from " + source + " where Tujuan = '" + opt + "'");
     }    
     query.send(handleQueryResponse);
     function handleQueryResponse(response) {
@@ -68,9 +68,11 @@ $('.accord-section-title').click(function(){
       break;
     default: break;
   }
-  drawVisualization(opt, cont, source);
-  temp1=cont;
-  temp2=source;
+  if(id!='jatim'){    
+    drawVisualization(opt, cont, source);
+    temp1=cont;
+    temp2=source;
+  }
 });
 
 });

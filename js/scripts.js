@@ -33,6 +33,12 @@ var info;
     ]        
 }
 
+  result [0] = '1pAq8MExPv4_lh7zzbwPo9XJvECH-du4wb-R1I4Ng';
+  result [1] = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';
+  result [2] = '18JvRFAj_drFMl6DYJ8ZlSoMS0_wICDFOhYHrKjMH';
+  result [3] = '1O46RRdQLkJ4rkMsUwwdbcpnT8OznqKIuTsf5yJek';
+  result [4] = '1lpvQYRmshDAvLVWS2j5NGV6hAk74WzJWwiPdwTCP';
+
 function initialize() {  
   Peta = new google.maps.LatLng(-7.2633764,111.7498247);
   jum = 9;
@@ -55,13 +61,7 @@ function initialize() {
   rawan [1] = '1ITtejnPSSMbVSItH8x9pxs7hTAin0oemuBpzf_k-';
   rawan [2] = '1SqDupdVO3KXXVAv7GbD4tXjkldlRSEyQ3XDBacSs';
   rawan [3] = '1pTNRH6jXv4PytHIeGdptdkDjFl0twJ5oQK7OkIqB';
-  rawan [4] = '1NuYLsTXCY_Dqf8l-qgjtukYNNO4C2QDqvpYsg_en';
-
-  result [0] = '1pAq8MExPv4_lh7zzbwPo9XJvECH-du4wb-R1I4Ng';
-  result [1] = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';
-  result [2] = '18JvRFAj_drFMl6DYJ8ZlSoMS0_wICDFOhYHrKjMH';
-  result [3] = '1O46RRdQLkJ4rkMsUwwdbcpnT8OznqKIuTsf5yJek';
-  result [4] = '1lpvQYRmshDAvLVWS2j5NGV6hAk74WzJWwiPdwTCP';
+  rawan [4] = '1NuYLsTXCY_Dqf8l-qgjtukYNNO4C2QDqvpYsg_en';  
 
 function newInit(Peta,jum) {
   mapOptions = {
@@ -76,19 +76,21 @@ function newInit(Peta,jum) {
   styleMap(map);
 };
 
-function loop(){
-  for (var i = 0; i < skin.length; i++) {
-    //fusion(result[i]);
-    skin[i] = new google.maps.FusionTablesLayer({
+function loop(){  
+  for (var i = 0; i < 5; i++) {    
+    var a = new google.maps.FusionTablesLayer({
       query: {
         select: 'geometry',
         from: result[i]
       },          
-    });    
-    skin[i].setMap(map);
-    styleLayerBySector(skin[i]);
+    });
+    console.log(result[i]);
+    a.setMap(map);
+    styleLayerBySector(a);
   }
 }
+
+
 
 function fusion(f) {
   layer = new google.maps.FusionTablesLayer({
@@ -115,11 +117,11 @@ function fusion(f) {
 
     var electricity = e.row['risk'].value;
     if (electricity > 0.08) {
-      e.infoWindowHtml = '<p class="high">High Usage!</p>';
+      e.infoWindowHtml = '<p class="high">Tingkat Resiko Tinggi</p>';
     } else if (electricity > 0.05) {
-      e.infoWindowHtml = '<p class="medium">Medium Usage</p>';
+      e.infoWindowHtml = '<p class="medium">Tingkat Resiko Sedang</p>';
     } else {
-      e.infoWindowHtml = '<p class="low">Low Usage</p>';
+      e.infoWindowHtml = '<p class="low">Tingkat Resiko Rendah</p>';
     }
 
     
@@ -168,6 +170,7 @@ function legendContent(legendWrapper, id) {
 }
 
 function toggleLayer(n) {  
+  styleMap(map);
   if(n==0){
     initialize();     
   } else {
@@ -175,12 +178,13 @@ function toggleLayer(n) {
   }
 }
 
-function toggleAHP(n) {
+function toggleAHP(n) {  
   fusion(result[n-1]);
-  styleLayerBySector(layer);
-  styleMap(map);
-  fusion(rawan[n-1]);  
+  styleLayerBySector(layer);  
+  fusion(rawan[n-1]);
 }
+
+function doNothing() {}
 
 $('.accord-section-title').click(function(){
   var id = $(this).attr('id');
@@ -215,7 +219,9 @@ $('.accord-section-title').click(function(){
   newInit(Peta,jum);
   toggleLayer(n);
   toggleAHP(n);
-  createLegend(map, id);
+  if(n!=0){
+    createLegend(map, id);
+  }
 });
 
 function styleLayerBySector(layer) {
