@@ -20,16 +20,15 @@ var markers = [];
 var locationSelect;
 var cek;
 var info;
+var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
 
  var LAYER_STYLES = {        
     'min': 0,
     'max': 0.15,
-    'colors': [
-      '#f4cccc',
-      '#ea9999',
-      '#e06666',
-      '#cc0000',
-      '#990000'
+    'colors': [      
+      '#00FF00',
+      '#FFFF00',
+      '#cc0000'
     ]        
 }
 
@@ -49,6 +48,7 @@ function initialize() {
   fusion(first);
   //loop();
   fusion(second);
+  toggleAll();
 
   layers [0] = '1xJKmJWufCa2N843uZhxAQ6FSYH3fQ-12t10XmJbT';
   layers [1] = '1nb6tcNnolnlAjTfWwYWc1LRCMm3DP_JIv9ktL3-2';
@@ -184,6 +184,12 @@ function toggleAHP(n) {
   fusion(rawan[n-1]);
 }
 
+function toggleAll(){
+  fusion(third);
+  styleLayerBySector(layer);
+  //fusion(second);
+}
+
 function doNothing() {}
 
 $('.accord-section-title').click(function(){
@@ -217,11 +223,11 @@ $('.accord-section-title').click(function(){
     default: break;
   } 
   newInit(Peta,jum);
-  toggleLayer(n);
-  toggleAHP(n);
-  if(n!=0){
-    createLegend(map, id);
-  }
+  toggleLayer(n);  
+  if(id!='jatim'){
+    toggleAHP(n);
+  }      
+  //createLegend(map, id);
 });
 
 function styleLayerBySector(layer) {

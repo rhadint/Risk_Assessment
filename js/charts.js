@@ -12,10 +12,10 @@ $(document).ready(function(){
   function drawVisualization(opt, cont, source) {
     if (cont=='visualization') {
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'tma' as 'Tinggi Muka Air', 'ch' as 'Kerentanan Sosial', 'se' as 'Kerentanan Fisik', 'fisik' as 'Kerentanan Ekonomi', 'kbt' as 'Kejadian Bencana' from " + source + " where Tujuan = '" + opt + "'");
+      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'se' as 'Exposure', 'fisik' as 'Loss', 'kbt' as 'Capacity' from " + source + " where Tujuan = '" + opt + "'");
     } else {      
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'ch' as 'Tinggi Muka Air', 'sosial' as 'Kerentanan Sosial', 'fisik' as 'Kerentanan Fisik', 'ekonomi' as 'Kerentanan Ekonomi', 'kbt' as 'Kejadian Bencana' from " + source + " where Tujuan = '" + opt + "'");
+      query.setQuery("select 'Tujuan', 'ch' as 'Water Level', 'sosial' as 'Rainfall', 'fisik' as 'Exposure', 'ekonomi' as 'Loss', 'kbt' as 'Capacity' from " + source + " where Tujuan = '" + opt + "'");
     }    
     query.send(handleQueryResponse);
     function handleQueryResponse(response) {
