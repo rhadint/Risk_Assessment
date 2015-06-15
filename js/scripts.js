@@ -24,7 +24,7 @@ var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
 
  var LAYER_STYLES = {        
     'min': 0,
-    'max': 0.15,
+    'max': 0.1,
     'colors': [      
       '#00FF00',
       '#FFFF00',
@@ -32,8 +32,8 @@ var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
     ]        
 }
 
-  result [0] = '1pAq8MExPv4_lh7zzbwPo9XJvECH-du4wb-R1I4Ng';
-  result [1] = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';
+  result [0] = '1iKDIeA82YL5Dkfhao4lsmlcKXmXPCp8CPzSANuqc';
+  result [1] = '1SAEjzl5PefHVtil98_tYxzPXWHUZoo0vMJLXnci8';
   result [2] = '18JvRFAj_drFMl6DYJ8ZlSoMS0_wICDFOhYHrKjMH';
   result [3] = '1O46RRdQLkJ4rkMsUwwdbcpnT8OznqKIuTsf5yJek';
   result [4] = '1lpvQYRmshDAvLVWS2j5NGV6hAk74WzJWwiPdwTCP';
@@ -116,12 +116,12 @@ function fusion(f) {
     // });
 
     var electricity = e.row['risk'].value;
-    if (electricity > 0.08) {
-      e.infoWindowHtml = '<p class="high">Tingkat Resiko Tinggi</p>';
-    } else if (electricity > 0.05) {
-      e.infoWindowHtml = '<p class="medium">Tingkat Resiko Sedang</p>';
+    if (electricity == Math.min(e)) {
+      e.infoWindowHtml = '<p class="high">Tingkat Resiko Rendah</p>';
+    } else if (electricity == Math.max(e)) {
+      e.infoWindowHtml = '<p class="medium">Tingkat Resiko Tinggi</p>';
     } else {
-      e.infoWindowHtml = '<p class="low">Tingkat Resiko Rendah</p>';
+      e.infoWindowHtml = '<p class="low">Tingkat Resiko Sedang</p>';
     }
 
     
@@ -151,7 +151,6 @@ function legendContent(legendWrapper, id) {
   var step = (maxNum - minNum) / colors.length;
   for (var i = 0; i < colors.length; i++) {
     var legendItem = document.createElement('div');
-
     var color = document.createElement('div');
     color.setAttribute('class', 'color');
     color.style.backgroundColor = colors[i];
@@ -160,7 +159,7 @@ function legendContent(legendWrapper, id) {
     var newMin = minNum + step * i;
     var newMax = newMin + step;
     var minMax = document.createElement('span');
-    minMax.innerHTML = newMin + ' - ' + newMax;
+    minMax.innerHTML = Math.round(newMin) + ' - ' + Math.round(newMax);
     legendItem.appendChild(minMax);
 
     legend.appendChild(legendItem);
@@ -227,7 +226,7 @@ $('.accord-section-title').click(function(){
   if(id!='jatim'){
     toggleAHP(n);
   }      
-  //createLegend(map, id);
+  createLegend(map, id);
 });
 
 function styleLayerBySector(layer) {

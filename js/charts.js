@@ -12,10 +12,13 @@ $(document).ready(function(){
   function drawVisualization(opt, cont, source) {
     if (cont=='visualization') {
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'se' as 'Exposure', 'fisik' as 'Loss', 'kbt' as 'Capacity' from " + source + " where Tujuan = '" + opt + "'");
+      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'kbt' as 'Past Events', 'sos' as 'SV', 'fis' as 'PV', 'eko' as 'EV', 'kap' as 'Capacities' from " + source + " where Tujuan = '" + opt + "'");
+    } else if(cont=='vis'){
+      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
+      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'kbt' as 'Past Events', 'sos' as 'SV', 'fis' as 'PV', 'eko' as 'EV', 'kap' as 'Capacities' from " + source + " where Tujuan = '" + opt + "'");
     } else {      
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'ch' as 'Water Level', 'sosial' as 'Rainfall', 'fisik' as 'Exposure', 'ekonomi' as 'Loss', 'kbt' as 'Capacity' from " + source + " where Tujuan = '" + opt + "'");
+      query.setQuery("select 'Tujuan', 'ch' as 'Water Level', 'sosial' as 'Rainfall', 'fisik' as 'PV', 'ekonomi' as 'EV', 'kbt' as 'Event' from " + source + " where Tujuan = '" + opt + "'");
     }    
     query.send(handleQueryResponse);
     function handleQueryResponse(response) {
@@ -42,12 +45,12 @@ $('.accord-section-title').click(function(){
   id = $(this).attr('id');  
   switch(id){    
     case 'ngawi':          
-      source = '1pAq8MExPv4_lh7zzbwPo9XJvECH-du4wb-R1I4Ng';
+      source = '1iKDIeA82YL5Dkfhao4lsmlcKXmXPCp8CPzSANuqc';
       opt = 'Ngawi';
       cont = "vis";
       break;
     case 'bojonegoro':       
-      source = '1B5n-vTOUF4Eaaoc23TwitN20lmM2II0DIlRnjTLU';
+      source = '1SAEjzl5PefHVtil98_tYxzPXWHUZoo0vMJLXnci8';
       opt = 'Balen';
       cont = "visualization";
       break;
