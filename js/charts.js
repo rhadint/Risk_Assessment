@@ -10,15 +10,12 @@ var temp2;
 
 $(document).ready(function(){  
   function drawVisualization(opt, cont, source) {
-    if (cont=='visualization') {
-      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'kbt' as 'Past Events', 'sos' as 'SV', 'fis' as 'PV', 'eko' as 'EV', 'kap' as 'Capacities' from " + source + " where Tujuan = '" + opt + "'");
-    } else if(cont=='vis'){
-      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'kbt' as 'Past Events', 'sos' as 'SV', 'fis' as 'PV', 'eko' as 'EV', 'kap' as 'Capacities' from " + source + " where Tujuan = '" + opt + "'");
-    } else {      
+    if (cont=='vis3') {
       query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
       query.setQuery("select 'Tujuan', 'ch' as 'Water Level', 'sosial' as 'Rainfall', 'fisik' as 'PV', 'ekonomi' as 'EV', 'kbt' as 'Event' from " + source + " where Tujuan = '" + opt + "'");
+    } else {            
+      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
+      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'kbt' as 'Past Events', 'sos' as 'SV', 'fis' as 'PV', 'eko' as 'EV', 'kap' as 'Capacities' from " + source + " where Tujuan = '" + opt + "'");
     }    
     query.send(handleQueryResponse);
     function handleQueryResponse(response) {
@@ -45,22 +42,22 @@ $('.accord-section-title').click(function(){
   id = $(this).attr('id');  
   switch(id){    
     case 'ngawi':          
-      source = '1iKDIeA82YL5Dkfhao4lsmlcKXmXPCp8CPzSANuqc';
+      source = '19mnJY0B_KzTG9V2i1A0MbsyKuxXUQ1bCQ3zqMzne';
       opt = 'Ngawi';
       cont = "vis";
       break;
     case 'bojonegoro':       
-      source = '1SAEjzl5PefHVtil98_tYxzPXWHUZoo0vMJLXnci8';
+      source = '1aHSmezhiczwTIIQfq4fSM4ZG7oXNoSxJRiU2P1la';
       opt = 'Balen';
       cont = "visualization";
       break;
     case 'tuban':      
-      source = '18JvRFAj_drFMl6DYJ8ZlSoMS0_wICDFOhYHrKjMH';
+      source = '1sUuESYYmfr09WddDlp4KAdFMpFN7bwINrbVtdx4_';
       opt = 'Widang';
       cont = "vis2";
       break;
     case 'lamongan':      
-      source = '1O46RRdQLkJ4rkMsUwwdbcpnT8OznqKIuTsf5yJek';
+      source = '1NTy5EH_0rogpEwNhVDleajyeAeCXMmkCjm1Ns39e';
       opt = 'Babat';
       cont = "vis1";
       break;
