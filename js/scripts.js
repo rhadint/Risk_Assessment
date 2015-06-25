@@ -11,6 +11,7 @@ var mapOptions;
 var layer;
 var f;
 var sector;
+var global;
 
 $(document).ready(function(){/* google maps -----------------------------------------------------*/
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -45,10 +46,9 @@ function initialize() {
   var second = '1P-m0PYiArCh0Eu2s25ndEn9QDV8kkbfjrSHvzNV6';  
   
   newInit(Peta,jum);
-  fusion(first);
-  //loop();
-  fusion(second);
+  fusion(first);    
   toggleAll();
+  fusion2(second);
 
   layers [0] = '1xJKmJWufCa2N843uZhxAQ6FSYH3fQ-12t10XmJbT';
   layers [1] = '1nb6tcNnolnlAjTfWwYWc1LRCMm3DP_JIv9ktL3-2';
@@ -74,23 +74,7 @@ function newInit(Peta,jum) {
   }
   map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
   styleMap(map);
-};
-
-function loop(){  
-  for (var i = 0; i < 5; i++) {    
-    var a = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'geometry',
-        from: result[i]
-      },          
-    });
-    console.log(result[i]);
-    a.setMap(map);
-    styleLayerBySector(a);
-  }
 }
-
-
 
 function fusion(f) {
   layer = new google.maps.FusionTablesLayer({
@@ -123,32 +107,192 @@ function fusion(f) {
     } else {
       e.infoWindowHtml = '<p class="low">Tingkat Resiko Sedang</p>';
     }
-
-    
   });
 }
 
-function createLegend(map, id) {
+function fusion2(f) {
+  layer2 = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'geometry',
+      from: f
+    },          
+  });
+  layer2.setMap(map);
+}
+
+function getdata(temp) {
+  var series =  new geostats();  
+  var data = new Array();
+  var query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=" + encodeURIComponent("SELECT 'risk' FROM " + temp));  
+  query.send(handleQueryResponse);
+  function handleQueryResponse(response) {
+    if (response.isError()) {
+      alert('Error in query: ' + response.getReasons() + response.getMessage() + response.getDetailedMessage());
+      return;
+    }    
+    for (i = 0; i < response.getDataTable().getNumberOfRows(); i++) {
+      for (j = 0; j < 1; j++) {
+        data.push(response.getDataTable().getValue(i, j));                   
+      }        
+    }    
+    series.setSerie(data);      
+    var a = series.getClassJenks(3);    
+    HTStyles(data);
+    // NewStyle(layer, a);
+  } 
+}
+
+function JenkStyles(data, kclass) {
+  var werno = new Array();
+  for (var i = 0; i < kclass.length; i++) {    
+    if(i==3){
+        break;
+    }
+    werno.push(new Array());
+    for (var j = 0; j < data.length; j++) {
+      if(i==0){
+        if(data[j]>=kclass[i] && data[j]<=kclass[i+1]){          
+          werno[i].push(data[j]);
+         }
+      } else {
+        if(data[j]>kclass[i] && data[j]<=kclass[i+1]){          
+          werno[i].push(data[j]);
+        }
+      }
+    }
+  }  
+}
+
+function HTStyles(a) {  
+  var result = getMean(a);
+  var werno = new Array();
+  var next;  
+  if(result.count1>result.count2){
+    werno.push(result.min);
+    werno.push(result.mean)
+    next = getMean(result.temp1);    
+    werno.push(next.mean);
+  } else {    
+    werno.push(result.min);
+    next = getMean(result.temp2);    
+    werno.push(next.mean);
+    werno.push(result.mean);    
+  } 
+  werno.push(result.max);
+  NewStyle(layer, werno);
+}
+
+function getMean(x) {
+  var temp1 = new Array();
+  var temp2 = new Array();
+  var mean;
+  var sum=0, count1=0, count2=0, max=0, min=0;
+  for (var i = 0; i < x.length; i++) {
+    sum = sum + x[i];    
+  }
+  mean = sum / x.length;
+  for (var i = 0; i < x.length; i++) {
+    if(x[i]>mean){
+      count1++;
+      temp1.push(x[i]);
+    } else {
+      count2++;
+      temp2.push(x[i]);
+    }
+  }
+  for (var i = 0; i < temp1.length; i++) {
+    if(temp1[i]>max){
+      max = temp1[i];
+    }
+  }
+  for (var i = 0; i < temp2.length; i++) {
+    if(temp2[i]<min){
+      min = temp2[i];
+    }
+  }
+  return {
+    mean: mean,
+    max: max,
+    min: min,
+    temp1: temp1,
+    temp2: temp2,
+    count1: count1,
+    count2: count2
+  };
+}
+
+function NewStyle(layer, data) {
+  var layerStyle = LAYER_STYLES;
+  var colors = layerStyle.colors;
+  var styles = new Array();
+  
+  for (var i = 0; i < colors.length; i++) {    
+      styles.push({
+        where: condition(i, data),      
+        polygonOptions: {
+          fillColor: colors[i],
+          fillOpacity: 1
+        }
+      });              
+  }  
+  layer.set('styles', styles);
+  createLegend(map, data);
+}
+
+function condition(i, n) {
+  var con;
+  if (i==0) {
+    con = "risk >= " + n[i];    
+  } else {
+    con = "risk > " + n[i];
+  }  
+  return con;
+}
+
+function styleMap(map) {
+  var style = [{
+    featureType: 'all',
+    stylers: [{
+      saturation: -99
+    }]
+  }, {
+    featureType: 'poi',
+    stylers: [{
+      visibility: 'off'
+    }]
+  }, {
+    featureType: 'road',
+    stylers: [{
+      visibility: 'off'
+    }]
+  }];
+
+  var styledMapType = new google.maps.StyledMapType(style, {
+    map: map,
+    name: 'Styled Map'
+  });
+  map.mapTypes.set('map-style', styledMapType);
+  map.setMapTypeId('map-style');
+}
+
+function createLegend(map, data) {
   var legendWrapper = document.createElement('div');
   legendWrapper.id = 'legendWrapper';
   legendWrapper.index = 1;
   map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legendWrapper);
-  legendContent(legendWrapper, id);
+  legendContent(legendWrapper, data);
 }
 
-function legendContent(legendWrapper, id) {
+function legendContent(legendWrapper, data) {
+  var layerStyle = LAYER_STYLES;
+  var colors = layerStyle.colors;
   var legend = document.createElement('div');
   legend.id = 'legend';
 
   var title = document.createElement('p');
-  title.innerHTML = "Tingkat Resiko Kabupaten " + id;
+  title.innerHTML = "Tingkat Resiko Banjir Bengawan Solo";
   legend.appendChild(title);
 
-  var layerStyle = LAYER_STYLES;
-  var colors = layerStyle.colors;
-  var minNum = layerStyle.min;
-  var maxNum = layerStyle.max;
-  var step = (maxNum - minNum) / colors.length;
   for (var i = 0; i < colors.length; i++) {
     var legendItem = document.createElement('div');
     var color = document.createElement('div');
@@ -156,10 +300,10 @@ function legendContent(legendWrapper, id) {
     color.style.backgroundColor = colors[i];
     legendItem.appendChild(color);
 
-    var newMin = minNum + step * i;
-    var newMax = newMin + step;
+    var newMin = data[i].toFixed(2);
+    var newMax = data[i+1].toFixed(2);
     var minMax = document.createElement('span');
-    minMax.innerHTML = Math.round(newMin) + ' - ' + Math.round(newMax);
+    minMax.innerHTML = newMin + ' - ' + newMax;
     legendItem.appendChild(minMax);
 
     legend.appendChild(legendItem);
@@ -179,17 +323,14 @@ function toggleLayer(n) {
 
 function toggleAHP(n) {  
   fusion(result[n-1]);
-  styleLayerBySector(layer);  
-  fusion(rawan[n-1]);
+  getdata(result[n-1]);      
+  fusion2(rawan[n-1]);
 }
 
 function toggleAll(){
   fusion(third);
-  styleLayerBySector(layer);
-  //fusion(second);
+  getdata(third);  
 }
-
-function doNothing() {}
 
 $('.accord-section-title').click(function(){
   var id = $(this).attr('id');
@@ -225,64 +366,10 @@ $('.accord-section-title').click(function(){
   toggleLayer(n);  
   if(id!='jatim'){
     toggleAHP(n);
-  }      
-  createLegend(map, id);
+  }
 });
 
-function styleLayerBySector(layer) {
-  var layerStyle = LAYER_STYLES;
-  var colors = layerStyle.colors;
-  var minNum = layerStyle.min;
-  var maxNum = layerStyle.max;
-  var step = (maxNum - minNum) / colors.length;
 
-  var styles = new Array();
-  for (var i = 0; i < colors.length; i++) {
-    var newMin = minNum + step * i;
-    styles.push({
-      where: generateWhere(newMin),
-      polygonOptions: {
-        fillColor: colors[i],
-        fillOpacity: 1
-      }
-    });
-  }
-  layer.set('styles', styles);
-}
-
-function generateWhere(minNum) {
-  // var whereClause = new Array();
-  // whereClause.push("risk = ");
-  // whereClause.push(minNum);        
-  var whereClause = "risk >= " + minNum;
-  return whereClause;
-}
-
-function styleMap(map) {
-  var style = [{
-    featureType: 'all',
-    stylers: [{
-      saturation: -99
-    }]
-  }, {
-    featureType: 'poi',
-    stylers: [{
-      visibility: 'off'
-    }]
-  }, {
-    featureType: 'road',
-    stylers: [{
-      visibility: 'off'
-    }]
-  }];
-
-  var styledMapType = new google.maps.StyledMapType(style, {
-    map: map,
-    name: 'Styled Map'
-  });
-  map.mapTypes.set('map-style', styledMapType);
-  map.setMapTypeId('map-style');
-}
 
 /* end google maps -----------------------------------------------------*/
 
