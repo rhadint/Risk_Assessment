@@ -1,0 +1,48 @@
+.accord, .accord * {
+    -box-sizing: border-box;
+}
+
+.accord {
+    overflow: hidden;        
+    background: 0 0;
+}
+
+.accord-section-title {    
+    font-family:sans-serif;
+    width: 100%;
+    padding: 15px;
+    display: inline-block;    
+    background-color: #F5F5F5;
+    border-color: #DDD;
+    transition: all linear 0.15s;
+    font-size: 1.200em;    
+    color: #428BCA;
+}
+
+.accord-section-title.active, .accord-section-subtitle.active, .accord-section-title:hover, .accord-section-subtitle:h {
+    background-color: #DDD;
+    text-decoration: none;
+    outline: 0;
+    color: #2A6496;
+}
+ .accord-section-content {
+    padding: 15px;
+    display: none;
+ }
+
+ .accord-section-subcontent {
+    padding: 15px;
+    display: none;
+ }
+
+ .accord-section-subtitle {
+    font-family:sans-serif;
+    width: 100%;
+    padding: 15px;
+    display: inline-block;    
+    background-color: #F5F5F5;
+    border-color: #DDD;
+    transition: all linear 0.15s;
+    font-size: 1.200em;    
+    color: #428BCA;   
+ }
