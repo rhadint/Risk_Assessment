@@ -9,14 +9,9 @@ var temp1;
 var temp2;
 
 $(document).ready(function(){  
-  function drawVisualization(opt, cont, source) {
-    if (cont=='vis3') {
-      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'ch' as 'Water Level', 'sosial' as 'Rainfall', 'fisik' as 'PV', 'ekonomi' as 'EV', 'kbt' as 'Event' from " + source + " where Tujuan = '" + opt + "'");
-    } else {            
-      query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
-      query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'kbt' as 'Past Events', 'sos' as 'SV', 'fis' as 'PV', 'eko' as 'EV', 'kap' as 'Capacities' from " + source + " where Tujuan = '" + opt + "'");
-    }    
+  function drawVisualization(opt, cont, source) {              
+    query = new google.visualization.Query("https://www.google.com/fusiontables/gvizdata?tq=");
+    query.setQuery("select 'Tujuan', 'tma' as 'Water Level', 'ch' as 'Rainfall', 'kbt' as 'Past Events', 'sos' as 'SV', 'fis' as 'PV', 'eko' as 'EV', 'kap' as 'Capacities' from " + source + " where Tujuan = '" + opt + "'");        
     query.send(handleQueryResponse);
     function handleQueryResponse(response) {
       if (response.isError()) {
@@ -48,7 +43,7 @@ $('.accord-section-title').click(function(){
       break;
     case 'bojonegoro':       
       source = '1aHSmezhiczwTIIQfq4fSM4ZG7oXNoSxJRiU2P1la';
-      opt = 'Balen';
+      opt = 'Malo';
       cont = "visualization";
       break;
     case 'tuban':      
@@ -58,12 +53,12 @@ $('.accord-section-title').click(function(){
       break;
     case 'lamongan':      
       source = '1NTy5EH_0rogpEwNhVDleajyeAeCXMmkCjm1Ns39e';
-      opt = 'Babat';
+      opt = 'Kalitengah';
       cont = "vis1";
       break;
     case 'gresik':      
-      source = '1lpvQYRmshDAvLVWS2j5NGV6hAk74WzJWwiPdwTCP';
-      opt = 'Manyar';
+      source = '1-mGizJhlFrN-0zi7nPdUSJ3vPIxUsU4m6QzxS7U_';
+      opt = 'Bungah';
       cont = "vis3";
       break;
     default: break;

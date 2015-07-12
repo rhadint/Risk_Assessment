@@ -2,16 +2,9 @@ var layers = [6];
 var result = [5];
 var rawan = [5];
 var skin = [5];
-var map;
-var n;
-var LatLng;
-var Peta;
-var jum;
-var mapOptions;
-var layer;
-var f;
-var sector;
-var global;
+var map, n, LatLng, Peta, jum, mapOptions, layer, f, sector;
+var global, brief;
+var textlow, textmed, texthigh;
 
 $(document).ready(function(){/* google maps -----------------------------------------------------*/
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -37,7 +30,7 @@ var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
   result [1] = '1aHSmezhiczwTIIQfq4fSM4ZG7oXNoSxJRiU2P1la';
   result [2] = '1sUuESYYmfr09WddDlp4KAdFMpFN7bwINrbVtdx4_';
   result [3] = '1NTy5EH_0rogpEwNhVDleajyeAeCXMmkCjm1Ns39e';
-  result [4] = '1lpvQYRmshDAvLVWS2j5NGV6hAk74WzJWwiPdwTCP';
+  result [4] = '1-mGizJhlFrN-0zi7nPdUSJ3vPIxUsU4m6QzxS7U_';
 
 function initialize() {  
   Peta = new google.maps.LatLng(-7.2633764,111.7498247);
@@ -90,22 +83,17 @@ function fusion(f) {
      $.getScript("js/charts.js", function(){
        updateChart(sector);
      });
-
-    // $.ajax({
-    //   url: 'js/charts.js',
-    //   dataType: "script",
-    //   context: this,
-    //   success: function() { updateChart(sector); },
-    //   cache: true
-    // });
-
-    var electricity = e.row['risk'].value;
-    if (electricity == Math.min(e)) {
-      e.infoWindowHtml = '<p class="high">Tingkat Resiko Rendah</p>';
-    } else if (electricity == Math.max(e)) {
-      e.infoWindowHtml = '<p class="medium">Tingkat Resiko Tinggi</p>';
-    } else {
-      e.infoWindowHtml = '<p class="low">Tingkat Resiko Sedang</p>';
+    
+    var label = e.row['risk'].value;
+    if (label>=global[0] && label<=global[1]) {      
+      e.infoWindowHtml = '<p class="low">Tingkat Resiko Rendah</p>';      
+      $(brief).text(textlow);    
+    } else if (label>global[1] && label<=global[2]) {      
+      e.infoWindowHtml = '<p class="medium">Tingkat Resiko Sedang</p>';
+      $(brief).text(textmed);
+    } else {      
+      e.infoWindowHtml = '<p class="high">Tingkat Resiko Tinggi</p>';
+      $(brief).text(texthigh);
     }
   });
 }
@@ -135,10 +123,10 @@ function getdata(temp) {
         data.push(response.getDataTable().getValue(i, j));                   
       }        
     }    
-    series.setSerie(data);      
-    var a = series.getClassJenks(3);    
-    HTStyles(data);
-    // NewStyle(layer, a);
+    series.setSerie(data);   
+    var a = series.getClassJenks(3);   
+    a = HTStyles(data);
+    NewStyle(layer, a);
   } 
 }
 
@@ -179,7 +167,9 @@ function HTStyles(a) {
     werno.push(result.mean);    
   } 
   werno.push(result.max);
-  NewStyle(layer, werno);
+  global = werno;  
+  return werno;  
+  // NewStyle(layer, werno);
 }
 
 function getMean(x) {
@@ -228,7 +218,7 @@ function NewStyle(layer, data) {
   
   for (var i = 0; i < colors.length; i++) {    
       styles.push({
-        where: condition(i, data),      
+        where: condition(i, data),              
         polygonOptions: {
           fillColor: colors[i],
           fillOpacity: 1
@@ -244,8 +234,8 @@ function condition(i, n) {
   if (i==0) {
     con = "risk >= " + n[i];    
   } else {
-    con = "risk > " + n[i];
-  }  
+    con = "risk > " + n[i];    
+  }
   return con;
 }
 
@@ -333,32 +323,37 @@ function toggleAll(){
 }
 
 $('.accord-section-title').click(function(){
-  var id = $(this).attr('id');
+  var id = $(this).attr('id');  
   jum = 10;
   switch(id){
     case 'jatim': 
       n=0;
-      Peta = new google.maps.LatLng(-7.4326065,111.394829);      
+      Peta = new google.maps.LatLng(-7.4326065,111.394829);            
       break;
     case 'ngawi':
       n=1;      
-      Peta = new google.maps.LatLng(-7.4326065,111.394829);      
+      Peta = new google.maps.LatLng(-7.4326065,111.394829);
+      brief = "#dampak";
       break;
     case 'bojonegoro': 
       n=2;
       Peta = new google.maps.LatLng(-7.2633764,111.7498247);      
+      brief = "#dampak1";
       break;
     case 'tuban':
       n=3;
       Peta = new google.maps.LatLng(-7.0127631,112.0115064);      
+      brief = "#dampak2";
       break;
     case 'lamongan':
       n=4;
       Peta = new google.maps.LatLng(-7.088084,112.3734886);      
+      brief = "#dampak3";
       break;
     case 'gresik':
       n=5;
       Peta = new google.maps.LatLng(-7.0879808,112.5235898);      
+      brief = "#dampak4";
       break;
     default: break;
   } 
@@ -369,7 +364,9 @@ $('.accord-section-title').click(function(){
   }
 });
 
-
+textlow = "Untuk tingkat resiko rendah, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 0.75 m yang berdampak pada hingga 500 jiwa per km persegi. Banjir ini akan menggenangi beberapa bangunan dan lahan produktif dengan potensi kerugian mencapai 750 juta rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan";
+textmed = "Untuk tingkat resiko sedang, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 1.5 m yang berdampak pada hingga 1000 jiwa per km persegi. Banjir ini akan menggenangi banyak bangunan dan lahan produktif dengan potensi kerugian mencapai 1.5 milliar rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang";
+texthigh = "Untuk tingkat resiko sedang, kecamatan tersebut akan terkena banjir dengan kedalaman lebih 1.5 m yang berdampak pada hingga lebih dari 1000 jiwa per km persegi. Banjir ini akan menggenangi seluruh bangunan dan lahan produktif dengan potensi kerugian lebih dari 3 milliar rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang. Listrik dan jaringan telekomunikasi padam, memicu timbulnya bencana kedua (Tanah longsor, dsb.), munculnya trauma dan stress pasca bencana, timbulnya kekerasan-kekerasan dan perbuatan menyimpang. Banyak kerugian yang diterima, mulai dari aset kekayaan dan harta benda";
 
 /* end google maps -----------------------------------------------------*/
 
