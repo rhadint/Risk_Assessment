@@ -15,8 +15,7 @@ var locationSelect;
 var cek;
 var info;
 var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
-
- var LAYER_STYLES = {        
+var LAYER_STYLES = {        
     'min': 0,
     'max': 0.1,
     'colors': [      
@@ -25,12 +24,11 @@ var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
       '#cc0000'
     ]        
 }
-
-  result [0] = '19mnJY0B_KzTG9V2i1A0MbsyKuxXUQ1bCQ3zqMzne';
-  result [1] = '1aHSmezhiczwTIIQfq4fSM4ZG7oXNoSxJRiU2P1la';
-  result [2] = '1sUuESYYmfr09WddDlp4KAdFMpFN7bwINrbVtdx4_';
-  result [3] = '1NTy5EH_0rogpEwNhVDleajyeAeCXMmkCjm1Ns39e';
-  result [4] = '1-mGizJhlFrN-0zi7nPdUSJ3vPIxUsU4m6QzxS7U_';
+result [0] = '19mnJY0B_KzTG9V2i1A0MbsyKuxXUQ1bCQ3zqMzne';
+result [1] = '1aHSmezhiczwTIIQfq4fSM4ZG7oXNoSxJRiU2P1la';
+result [2] = '1sUuESYYmfr09WddDlp4KAdFMpFN7bwINrbVtdx4_';
+result [3] = '1NTy5EH_0rogpEwNhVDleajyeAeCXMmkCjm1Ns39e';
+result [4] = '1-mGizJhlFrN-0zi7nPdUSJ3vPIxUsU4m6QzxS7U_';
 
 function initialize() {  
   Peta = new google.maps.LatLng(-7.2633764,111.7498247);
@@ -50,11 +48,11 @@ function initialize() {
   layers [4] = '1gfXLx7ylTANkOJdOe53bAa2eLbdDMGPYA32RVN2O';      
 };  
 
-  rawan [0] = '1Lw0wNa8-ozAXqLXH2W1AaHCzdhJts56y6ysAZLvv';
-  rawan [1] = '1ITtejnPSSMbVSItH8x9pxs7hTAin0oemuBpzf_k-';
-  rawan [2] = '1SqDupdVO3KXXVAv7GbD4tXjkldlRSEyQ3XDBacSs';
-  rawan [3] = '1pTNRH6jXv4PytHIeGdptdkDjFl0twJ5oQK7OkIqB';
-  rawan [4] = '1NuYLsTXCY_Dqf8l-qgjtukYNNO4C2QDqvpYsg_en';  
+rawan [0] = '1Lw0wNa8-ozAXqLXH2W1AaHCzdhJts56y6ysAZLvv';
+rawan [1] = '1ITtejnPSSMbVSItH8x9pxs7hTAin0oemuBpzf_k-';
+rawan [2] = '1SqDupdVO3KXXVAv7GbD4tXjkldlRSEyQ3XDBacSs';
+rawan [3] = '1pTNRH6jXv4PytHIeGdptdkDjFl0twJ5oQK7OkIqB';
+rawan [4] = '1NuYLsTXCY_Dqf8l-qgjtukYNNO4C2QDqvpYsg_en';  
 
 function newInit(Peta,jum) {
   mapOptions = {
@@ -167,9 +165,7 @@ function HTStyles(a) {
     werno.push(result.mean);    
   } 
   werno.push(result.max);
-  global = werno;  
-  return werno;  
-  // NewStyle(layer, werno);
+  return werno;
 }
 
 function getMean(x) {
@@ -215,6 +211,7 @@ function NewStyle(layer, data) {
   var layerStyle = LAYER_STYLES;
   var colors = layerStyle.colors;
   var styles = new Array();
+  global = data;
   
   for (var i = 0; i < colors.length; i++) {    
       styles.push({
@@ -366,8 +363,6 @@ $('.accord-section-title').click(function(){
 
 textlow = "Untuk tingkat resiko rendah, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 0.75 m yang berdampak pada hingga 500 jiwa per km persegi. Banjir ini akan menggenangi beberapa bangunan dan lahan produktif dengan potensi kerugian mencapai 750 juta rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan";
 textmed = "Untuk tingkat resiko sedang, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 1.5 m yang berdampak pada hingga 1000 jiwa per km persegi. Banjir ini akan menggenangi banyak bangunan dan lahan produktif dengan potensi kerugian mencapai 1.5 milliar rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang";
-texthigh = "Untuk tingkat resiko sedang, kecamatan tersebut akan terkena banjir dengan kedalaman lebih 1.5 m yang berdampak pada hingga lebih dari 1000 jiwa per km persegi. Banjir ini akan menggenangi seluruh bangunan dan lahan produktif dengan potensi kerugian lebih dari 3 milliar rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang. Listrik dan jaringan telekomunikasi padam, memicu timbulnya bencana kedua (Tanah longsor, dsb.), munculnya trauma dan stress pasca bencana, timbulnya kekerasan-kekerasan dan perbuatan menyimpang. Banyak kerugian yang diterima, mulai dari aset kekayaan dan harta benda";
-
-/* end google maps -----------------------------------------------------*/
+texthigh = "Untuk tingkat resiko tinggi, kecamatan tersebut akan terkena banjir dengan kedalaman lebih 1.5 m yang berdampak pada hingga lebih dari 1000 jiwa per km persegi. Banjir ini akan menggenangi seluruh bangunan dan lahan produktif dengan potensi kerugian lebih dari 3 milliar rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang. Listrik dan jaringan telekomunikasi padam, memicu timbulnya bencana kedua (Tanah longsor, dsb.), munculnya trauma dan stress pasca bencana, timbulnya kekerasan-kekerasan dan perbuatan menyimpang. Banyak kerugian yang diterima, mulai dari aset kekayaan dan harta benda";
 
 });
