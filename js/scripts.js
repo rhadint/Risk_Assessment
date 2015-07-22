@@ -14,7 +14,7 @@ var markers = [];
 var locationSelect;
 var cek;
 var info;
-var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
+var third = '1T3eNceWXVy_C0kjmNppl-GVDiYmlwUWwBBErO9dr';
 var LAYER_STYLES = {        
     'min': 0,
     'max': 0.1,
