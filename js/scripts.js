@@ -14,7 +14,8 @@ var markers = [];
 var locationSelect;
 var cek;
 var info;
-var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
+var third = '1T3eNceWXVy_C0kjmNppl-GVDiYmlwUWwBBErO9dr';
+// var third = '1xWU7YlAlajhO7tNybHFtCCT_UlKgaodGW8a7a9w0';
 var LAYER_STYLES = {        
     'min': 0,
     'max': 0.1,
@@ -29,6 +30,7 @@ result [1] = '1aHSmezhiczwTIIQfq4fSM4ZG7oXNoSxJRiU2P1la';
 result [2] = '1sUuESYYmfr09WddDlp4KAdFMpFN7bwINrbVtdx4_';
 result [3] = '1NTy5EH_0rogpEwNhVDleajyeAeCXMmkCjm1Ns39e';
 result [4] = '1-mGizJhlFrN-0zi7nPdUSJ3vPIxUsU4m6QzxS7U_';
+var sungai = new google.maps.KmlLayer('http://rhadint.it.student.pens.ac.id/peta/Peta_Sungai.kml');
 
 function initialize() {  
   Peta = new google.maps.LatLng(-7.2633764,111.7498247);
@@ -37,9 +39,11 @@ function initialize() {
   var second = '1P-m0PYiArCh0Eu2s25ndEn9QDV8kkbfjrSHvzNV6';  
   
   newInit(Peta,jum);
-  fusion(first);    
+  fusion(first);
   toggleAll();
-  fusion2(second);
+  //sungai.setMap(map);
+  //fusion2(second);
+  //RiverStyle(layer2);
 
   layers [0] = '1xJKmJWufCa2N843uZhxAQ6FSYH3fQ-12t10XmJbT';
   layers [1] = '1nb6tcNnolnlAjTfWwYWc1LRCMm3DP_JIv9ktL3-2';
@@ -52,7 +56,7 @@ rawan [0] = '1Lw0wNa8-ozAXqLXH2W1AaHCzdhJts56y6ysAZLvv';
 rawan [1] = '1ITtejnPSSMbVSItH8x9pxs7hTAin0oemuBpzf_k-';
 rawan [2] = '1SqDupdVO3KXXVAv7GbD4tXjkldlRSEyQ3XDBacSs';
 rawan [3] = '1pTNRH6jXv4PytHIeGdptdkDjFl0twJ5oQK7OkIqB';
-rawan [4] = '1NuYLsTXCY_Dqf8l-qgjtukYNNO4C2QDqvpYsg_en';  
+rawan [4] = '1NuYLsTXCY_Dqf8l-qgjtukYNNO4C2QDqvpYsg_en';
 
 function newInit(Peta,jum) {
   mapOptions = {
@@ -85,7 +89,7 @@ function fusion(f) {
     var label = e.row['risk'].value;
     if (label>=global[0] && label<=global[1]) {      
       e.infoWindowHtml = '<p class="low">Tingkat Resiko Rendah</p>';      
-      $(brief).text(textlow);    
+      $(brief).text(textlow);      
     } else if (label>global[1] && label<=global[2]) {      
       e.infoWindowHtml = '<p class="medium">Tingkat Resiko Sedang</p>';
       $(brief).text(textmed);
@@ -123,30 +127,9 @@ function getdata(temp) {
     }    
     series.setSerie(data);   
     var a = series.getClassJenks(3);   
-    a = HTStyles(data);
+    a = HTStyles(data);    
     NewStyle(layer, a);
   } 
-}
-
-function JenkStyles(data, kclass) {
-  var werno = new Array();
-  for (var i = 0; i < kclass.length; i++) {    
-    if(i==3){
-        break;
-    }
-    werno.push(new Array());
-    for (var j = 0; j < data.length; j++) {
-      if(i==0){
-        if(data[j]>=kclass[i] && data[j]<=kclass[i+1]){          
-          werno[i].push(data[j]);
-         }
-      } else {
-        if(data[j]>kclass[i] && data[j]<=kclass[i+1]){          
-          werno[i].push(data[j]);
-        }
-      }
-    }
-  }  
 }
 
 function HTStyles(a) {  
@@ -212,6 +195,7 @@ function NewStyle(layer, data) {
   var colors = layerStyle.colors;
   var styles = new Array();
   global = data;
+  console.log(global);
   
   for (var i = 0; i < colors.length; i++) {    
       styles.push({
@@ -290,7 +274,14 @@ function legendContent(legendWrapper, data) {
     var newMin = data[i].toFixed(2);
     var newMax = data[i+1].toFixed(2);
     var minMax = document.createElement('span');
-    minMax.innerHTML = newMin + ' - ' + newMax;
+    //minMax.innerHTML = newMin + ' - ' + newMax;
+    if(i==0){
+      minMax.innerHTML = "Rendah";
+    } else if(i==1){
+      minMax.innerHTML = "Sedang";
+    } else {
+      minMax.innerHTML = "Tinggi";
+    }
     legendItem.appendChild(minMax);
 
     legend.appendChild(legendItem);
@@ -320,7 +311,8 @@ function toggleAll(){
 }
 
 $('.accord-section-title').click(function(){
-  var id = $(this).attr('id');  
+  var id = $(this).attr('id');
+  // var id = $(this).attr('href'); 
   jum = 10;
   switch(id){
     case 'jatim': 
@@ -361,8 +353,7 @@ $('.accord-section-title').click(function(){
   }
 });
 
-textlow = "Untuk tingkat resiko rendah, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 0.75 m yang berdampak pada hingga 500 jiwa per km persegi. Banjir ini akan menggenangi beberapa bangunan dan lahan produktif dengan potensi kerugian mencapai 750 juta rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan";
-textmed = "Untuk tingkat resiko sedang, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 1.5 m yang berdampak pada hingga 1000 jiwa per km persegi. Banjir ini akan menggenangi banyak bangunan dan lahan produktif dengan potensi kerugian mencapai 1.5 milliar rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang";
-texthigh = "Untuk tingkat resiko tinggi, kecamatan tersebut akan terkena banjir dengan kedalaman lebih 1.5 m yang berdampak pada hingga lebih dari 1000 jiwa per km persegi. Banjir ini akan menggenangi seluruh bangunan dan lahan produktif dengan potensi kerugian lebih dari 3 milliar rupiah. Aktivitas ekonomi terganggu, aktivitas pendidikan dan pekerjaan terhambat, akses kegiatan kemasyarakatan terganggu, ruang dan pelayanan publik tersendat, serta sumber air terkontaminasi dan sanitasi tidak berjalan. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang. Listrik dan jaringan telekomunikasi padam, memicu timbulnya bencana kedua (Tanah longsor, dsb.), munculnya trauma dan stress pasca bencana, timbulnya kekerasan-kekerasan dan perbuatan menyimpang. Banyak kerugian yang diterima, mulai dari aset kekayaan dan harta benda";
-
+textlow = "Untuk tingkat resiko rendah, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 0.75 m yang berdampak pada hingga 500 jiwa per km persegi. Banjir ini akan menggenangi beberapa bangunan dan lahan produktif dengan potensi kerugian mencapai 750 juta rupiah. Untuk menanggulangi ini, hal yang harus dilakukan adalah meninggikan tanggul dan bendungan sungai, membuat saluran-saluran perangkap air dan pemanen hujan, dan memberikan pendidikan kepada masyarakat mengenai bahaya banjir sungai";
+textmed = "Untuk tingkat resiko sedang, kecamatan tersebut akan terkena banjir dengan kedalaman hingga 1.5 m yang berdampak pada hingga 1000 jiwa per km persegi. Banjir ini akan menggenangi banyak bangunan dan lahan produktif dengan potensi kerugian mencapai 1.5 milliar rupiah. Terjadi kerusakan pada infrastruktur dan bangunan (jalan, jembatan). Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang. Untuk menanggulangi ini, hal yang harus dilakukan adalah meninggikan tanggul dan bendungan sungai, membuat saluran-saluran perangkap air dan pemanen hujan, memberikan pendidikan kepada masyarakat mengenai bahaya banjir sungai, dan membuat daerah-daerah pengungsian darurat";
+texthigh = "Untuk tingkat resiko tinggi, kecamatan tersebut akan terkena banjir dengan kedalaman lebih 1.5 m yang berdampak pada hingga lebih dari 1000 jiwa per km persegi. Banjir ini akan menggenangi seluruh bangunan dan lahan produktif dengan potensi kerugian lebih dari 3 milliar rupiah. Terjadi kerusakan pada infrastruktur dan bangunan. Timbulnya penyakit-penyakit menahun (PES, dsb.) Adanya penduduk yang mengungsi dan kemungkinan orang terhanyut atau hilang. Listrik dan jaringan telekomunikasi padam, munculnya trauma dan stress pasca bencana, timbulnya kekerasan-kekerasan dan perbuatan menyimpang. Untuk menanggulangi ini, hal yang harus dilakukan adalah meninggikan tanggul dan bendungan sungai, membuat saluran-saluran perangkap air dan pemanen hujan, memberikan pendidikan kepada masyarakat mengenai bahaya banjir sungai, dan membuat daerah-daerah pengungsian darurat. Memberikan penyuluhan dan pelatihan kepada  masyarakat tentang evakuasi bencana banjir, membentuk tim tanggap darurat bencana banjir, melarang masyarakat mendirikan bangunan di sekitar aliran sungai, dan membuat jalur-jalur evakuasi dan pengungsian";
 });
